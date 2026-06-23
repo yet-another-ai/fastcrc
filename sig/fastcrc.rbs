@@ -1,4 +1,16 @@
-module Fastcrc
+module FastCRC
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+
+  class Error < StandardError
+  end
+
+  class CRC32
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+  end
+
+  class CRC64NVME
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+  end
 end

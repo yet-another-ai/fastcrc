@@ -3,7 +3,6 @@
 require_relative "fastcrc/version"
 require "fastcrc/fastcrc"
 
-module Fastcrc
+module FastCRC
   class Error < StandardError; end
-  # Your code goes here...
 end

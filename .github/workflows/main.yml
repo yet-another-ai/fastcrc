@@ -10,22 +10,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
-    strategy:
-      matrix:
-        ruby:
-          - '4.0.2'
+    name: Ruby
 
     steps:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: Set up Ruby & Rust
-        uses: oxidize-rb/actions/setup-ruby-and-rust@v1
-        with:
-          ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true
-          cargo-cache: true
-          rubygems: '4.0.6'
+        uses: jdx/mise-action@v4
+      - name: Install dependencies
+        run: bundle install
       - name: Run the default task
         run: bundle exec rake
