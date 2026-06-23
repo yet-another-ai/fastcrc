@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = "fastcrc"
   spec.version = FastCRC::VERSION
   spec.authors = ["Yet Another AI"]
-  spec.email = ["shenghao.ding@yetanother.ai"]
+  spec.email = ["rubygems@yetanother.ai"]
 
   spec.summary = "Fast CRC checksum computation for Ruby, backed by Rust SIMD-accelerated implementations."
   spec.description = "Fast CRC checksum for Ruby using crc-fast " \
