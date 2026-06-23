@@ -14,11 +14,14 @@ GEM
       io-event (~> 1.11)
       metrics (~> 0.12)
       traces (~> 0.18)
+    benchmark (0.5.0)
     console (1.36.0)
       fiber-annotation
       fiber-local (~> 1.1)
       json
     date (3.5.1)
+    digest-crc (0.7.0)
+      rake (>= 12.0.0, < 14.0.0)
     erb (6.0.4)
     fiber-annotation (0.2.0)
     fiber-local (1.1.0)
@@ -90,6 +93,8 @@ PLATFORMS
 
 DEPENDENCIES
   async (~> 2.39)
+  benchmark (~> 0.5.0)
+  digest-crc (~> 0.7.0)
   fastcrc!
   irb
   minitest (~> 5.16)
@@ -100,8 +105,10 @@ DEPENDENCIES
 CHECKSUMS
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.39.0) sha256=df18730073f2bbb45788077dfa20cb365ecc1b9453969f44de6796b5191a00aa
+  benchmark (0.5.0) sha256=465df122341aedcb81a2a24b4d3bd19b6c67c1530713fd533f3ff034e419236c
   console (1.36.0) sha256=45599ea906cf80a73d8941f03abf873fe66a6a954e0bac5bc1c01e2cdc406f07
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
+  digest-crc (0.7.0) sha256=64adc23a26a241044cbe6732477ca1b3c281d79e2240bcff275a37a5a0d78c07
   erb (6.0.4) sha256=38e3803694be357fe2bfe312487c74beaf9fb4e5beb3e22498952fe1645b95d9
   fastcrc (0.1.0)
   fiber-annotation (0.2.0) sha256=7abfadf1d119f508867d4103bf231c0354d019cc39a5738945dec2edadaf6c03

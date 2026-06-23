@@ -1,4 +1,4 @@
-use crc64fast_nvme::Digest as Crc64NvmeDigest;
+use crc_fast::{crc32_iso_hdlc, crc64_nvme, CrcAlgorithm, Digest};
 use magnus::{function, method, prelude::*, Error, RString, Ruby};
 use std::cell::RefCell;
 
@@ -8,7 +8,7 @@ fn bytes_from_rstring(input: &RString) -> &[u8] {
 }
 
 fn crc32_checksum(input: RString) -> u32 {
-    crc32fast::hash(bytes_from_rstring(&input))
+    crc32_iso_hdlc(bytes_from_rstring(&input))
 }
 
 fn crc32_hexdigest(input: RString) -> String {
@@ -16,9 +16,7 @@ fn crc32_hexdigest(input: RString) -> String {
 }
 
 fn crc64_nvme_checksum(input: RString) -> u64 {
-    let mut digest = Crc64NvmeDigest::new();
-    digest.write(bytes_from_rstring(&input));
-    digest.sum64()
+    crc64_nvme(bytes_from_rstring(&input))
 }
 
 fn crc64_nvme_hexdigest(input: RString) -> String {
@@ -27,24 +25,22 @@ fn crc64_nvme_hexdigest(input: RString) -> String {
 
 #[magnus::wrap(class = "FastCRC::CRC32", free_immediately, size)]
 struct Crc32 {
-    hasher: RefCell<crc32fast::Hasher>,
+    digest: RefCell<Digest>,
 }
 
 impl Crc32 {
     fn new() -> Self {
         Self {
-            hasher: RefCell::new(crc32fast::Hasher::new()),
+            digest: RefCell::new(Digest::new(CrcAlgorithm::Crc32IsoHdlc)),
         }
     }
 
     fn update(&self, input: RString) {
-        self.hasher
-            .borrow_mut()
-            .update(bytes_from_rstring(&input));
+        self.digest.borrow_mut().update(bytes_from_rstring(&input));
     }
 
     fn checksum(&self) -> u32 {
-        self.hasher.borrow().clone().finalize()
+        self.digest.borrow().finalize() as u32
     }
 
     fn hexdigest(&self) -> String {
@@ -52,30 +48,28 @@ impl Crc32 {
     }
 
     fn reset(&self) {
-        self.hasher.borrow_mut().reset();
+        self.digest.borrow_mut().reset();
     }
 }
 
 #[magnus::wrap(class = "FastCRC::CRC64NVME", free_immediately, size)]
 struct Crc64Nvme {
-    digest: RefCell<Crc64NvmeDigest>,
+    digest: RefCell<Digest>,
 }
 
 impl Crc64Nvme {
     fn new() -> Self {
         Self {
-            digest: RefCell::new(Crc64NvmeDigest::new()),
+            digest: RefCell::new(Digest::new(CrcAlgorithm::Crc64Nvme)),
         }
     }
 
     fn update(&self, input: RString) {
-        self.digest
-            .borrow_mut()
-            .write(bytes_from_rstring(&input));
+        self.digest.borrow_mut().update(bytes_from_rstring(&input));
     }
 
     fn checksum(&self) -> u64 {
-        self.digest.borrow().sum64()
+        self.digest.borrow().finalize()
     }
 
     fn hexdigest(&self) -> String {
@@ -83,7 +77,7 @@ impl Crc64Nvme {
     }
 
     fn reset(&self) {
-        *self.digest.borrow_mut() = Crc64NvmeDigest::new();
+        self.digest.borrow_mut().reset();
     }
 }
 

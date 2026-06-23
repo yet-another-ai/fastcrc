@@ -15,3 +15,7 @@ gem "minitest", "~> 5.16"
 gem "rubocop", "~> 1.21"
 
 gem "async", "~> 2.39"
+
+gem "digest-crc", "~> 0.7.0", group: :development
+
+gem "benchmark", "~> 0.5.0", group: :development

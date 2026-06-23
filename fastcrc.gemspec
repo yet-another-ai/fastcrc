@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["shenghao.ding@yetanother.ai"]
 
   spec.summary = "Fast CRC checksum computation for Ruby, backed by Rust SIMD-accelerated implementations."
-  spec.description = "Fast CRC checksum for Ruby using crc32fast and crc64fast-nvme " \
+  spec.description = "Fast CRC checksum for Ruby using crc-fast " \
                       "via Magnus/Rust bindings."
   spec.homepage = "https://github.com/dsh0416/yet-another-ai/fastcrc"
   spec.license = "MIT"

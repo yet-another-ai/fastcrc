@@ -19,4 +19,11 @@ RbSys::ExtensionTask.new("fastcrc", GEMSPEC) do |ext|
   ext.lib_dir = "lib/fastcrc"
 end
 
+namespace :benchmark do
+  desc "Benchmark FastCRC against digest-crc"
+  task digest_crc: :compile do
+    ruby "benchmark/digest_crc.rb"
+  end
+end
+
 task default: %i[compile test rubocop]

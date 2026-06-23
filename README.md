@@ -4,8 +4,8 @@ Fast CRC checksum computation for Ruby, backed by Rust SIMD-accelerated implemen
 
 Supported algorithms:
 
-- `FastCRC::CRC32` — CRC-32/IEEE via [`crc32fast`](https://crates.io/crates/crc32fast)
-- `FastCRC::CRC64NVME` — CRC-64/NVME via [`crc64fast-nvme`](https://crates.io/crates/crc64fast-nvme)
+- `FastCRC::CRC32` — CRC-32/IEEE via [`crc-fast`](https://crates.io/crates/crc-fast)
+- `FastCRC::CRC64NVME` — CRC-64/NVME via [`crc-fast`](https://crates.io/crates/crc-fast)
 
 ## Installation
 
@@ -92,6 +92,20 @@ Instance methods mirror the class methods:
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
+
+### Benchmarks
+
+Benchmark FastCRC against the [`digest-crc`](https://github.com/postmodern/digest-crc) gem with:
+
+```bash
+bundle exec rake benchmark:digest_crc
+```
+
+The benchmark compares incremental `#update` performance for the overlapping `CRC32` and `CRC64 NVMe` algorithms. You can tune the workload with `ITERATIONS`, `SAMPLE_COUNT`, and `BLOCK_SIZE` environment variables:
+
+```bash
+ITERATIONS=5 SAMPLE_COUNT=500 BLOCK_SIZE=16384 bundle exec rake benchmark:digest_crc
+```
 
 ## License
 
