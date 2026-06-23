@@ -1,0 +1,45 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    name: Publish gem
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Ruby & Rust
+        uses: jdx/mise-action@v4
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Verify tag matches gem version
+        run: |
+          gem_version="$(bundle exec ruby -Ilib -rfastcrc/version -e 'print FastCRC::VERSION')"
+          tag_version="${GITHUB_REF_NAME#v}"
+
+          if [ "$tag_version" != "$gem_version" ]; then
+            echo "Tag v${tag_version} does not match gem version ${gem_version}."
+            exit 1
+          fi
+
+      - name: Run the default task
+        run: bundle exec rake
+
+      - name: Configure RubyGems credentials
+        uses: rubygems/configure-rubygems-credentials@v2.1.0
+
+      - name: Publish to RubyGems
+        run: bundle exec rake publish
