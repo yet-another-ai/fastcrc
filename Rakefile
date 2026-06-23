@@ -19,6 +19,11 @@ RbSys::ExtensionTask.new("fastcrc", GEMSPEC) do |ext|
   ext.lib_dir = "lib/fastcrc"
 end
 
+desc "Build and publish the gem to RubyGems"
+task publish: :build do
+  sh "gem", "push", File.join("pkg", "#{GEMSPEC.full_name}.gem")
+end
+
 namespace :benchmark do
   desc "Benchmark FastCRC against digest-crc"
   task digest_crc: :compile do
