@@ -4,7 +4,153 @@ module FastCRC
   class Error < StandardError
   end
 
+  class CRC16
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16CCITT
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16CCITT
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16DNP
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16DNP
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16Genibus
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16Genibus
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16Kermit
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16Kermit
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16Modbus
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16Modbus
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16QT
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16QT
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16USB
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16USB
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16X25
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16X25
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16XModem
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16XModem
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC16ZModem
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC16ZModem
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
   class CRC32
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
     def self.new: () -> CRC32
     def self.checksum: (String data) -> Integer
     def self.hexdigest: (String data) -> String
@@ -14,8 +160,130 @@ module FastCRC
     def reset: () -> void
   end
 
-  class CRC64NVME
-    def self.new: () -> CRC64NVME
+  class CRC32BZip2
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32BZip2
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC32c
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32c
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC32Jam
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32Jam
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC32MPEG
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32MPEG
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  CRC32Mpeg: singleton(CRC32MPEG)
+
+  class CRC32POSIX
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32POSIX
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC32XFER
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC32XFER
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC64
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC64
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC64Jones
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC64Jones
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC64NVMe
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC64NVMe
+    def self.checksum: (String data) -> Integer
+    def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
+  end
+
+  class CRC64XZ
+    WIDTH: Integer
+    CHECK: Integer
+    NAME: String
+    def self.new: () -> CRC64XZ
     def self.checksum: (String data) -> Integer
     def self.hexdigest: (String data) -> String
     def update: (String data) -> void

@@ -2,10 +2,11 @@
 
 Fast CRC checksum computation for Ruby, backed by Rust SIMD-accelerated implementations.
 
-Supported algorithms:
+Supported algorithms mirror the CRC-16, CRC-32, and CRC-64 dialects that overlap with [`digest-crc`](https://github.com/postmodern/digest-crc):
 
-- `FastCRC::CRC32` — CRC-32/IEEE via [`crc-fast`](https://crates.io/crates/crc-fast)
-- `FastCRC::CRC64NVME` — CRC-64/NVME via [`crc-fast`](https://crates.io/crates/crc-fast)
+- CRC-16: `FastCRC::CRC16`, `FastCRC::CRC16CCITT`, `FastCRC::CRC16DNP`, `FastCRC::CRC16Genibus`, `FastCRC::CRC16Kermit`, `FastCRC::CRC16Modbus`, `FastCRC::CRC16QT`, `FastCRC::CRC16USB`, `FastCRC::CRC16X25`, `FastCRC::CRC16XModem`, `FastCRC::CRC16ZModem`
+- CRC-32: `FastCRC::CRC32`, `FastCRC::CRC32BZip2`, `FastCRC::CRC32c`, `FastCRC::CRC32Jam`, `FastCRC::CRC32MPEG`, `FastCRC::CRC32POSIX`, `FastCRC::CRC32XFER`
+- CRC-64: `FastCRC::CRC64`, `FastCRC::CRC64Jones`, `FastCRC::CRC64NVMe`, `FastCRC::CRC64XZ`
 
 ## Installation
 
@@ -32,10 +33,10 @@ FastCRC::CRC32.hexdigest("123456789")
 FastCRC::CRC32.checksum("123456789")
 # => 3421780262
 
-FastCRC::CRC64NVME.hexdigest("hello world!")
+FastCRC::CRC64NVMe.hexdigest("hello world!")
 # => "d9160d1fa8e418e3"
 
-FastCRC::CRC64NVME.checksum("hello world!")
+FastCRC::CRC64NVMe.checksum("hello world!")
 # => 15655158020120117219
 ```
 
@@ -101,7 +102,7 @@ Benchmark FastCRC against the [`digest-crc`](https://github.com/postmodern/diges
 bundle exec rake benchmark:digest_crc
 ```
 
-The benchmark compares incremental `#update` performance for the overlapping `CRC32` and `CRC64 NVMe` algorithms. You can tune the workload with `ITERATIONS`, `SAMPLE_COUNT`, and `BLOCK_SIZE` environment variables:
+The benchmark compares incremental `#update` performance for the supported digest-crc overlap. You can tune the workload with `ITERATIONS`, `SAMPLE_COUNT`, and `BLOCK_SIZE` environment variables:
 
 ```bash
 ITERATIONS=5 SAMPLE_COUNT=500 BLOCK_SIZE=16384 bundle exec rake benchmark:digest_crc

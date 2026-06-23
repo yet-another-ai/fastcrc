@@ -4,8 +4,6 @@
 require "benchmark"
 require "bundler/setup"
 require "fastcrc"
-require "digest/crc32"
-require "digest/crc64_nvme"
 
 DEFAULT_ITERATIONS = 10
 DEFAULT_SAMPLE_COUNT = 1_000
@@ -20,17 +18,37 @@ SAMPLES = Array.new(SAMPLE_COUNT) do |sample_index|
 end.freeze
 
 BENCHMARKS = [
+  ["CRC16", "crc16", "CRC16"],
+  ["CRC16 CCITT", "crc16_ccitt", "CRC16CCITT"],
+  ["CRC16 DNP", "crc16_dnp", "CRC16DNP"],
+  ["CRC16 Genibus", "crc16_genibus", "CRC16Genibus"],
+  ["CRC16 Kermit", "crc16_kermit", "CRC16Kermit"],
+  ["CRC16 Modbus", "crc16_modbus", "CRC16Modbus"],
+  ["CRC16 QT", "crc16_qt", "CRC16QT"],
+  ["CRC16 USB", "crc16_usb", "CRC16USB"],
+  ["CRC16 X25", "crc16_x_25", "CRC16X25"],
+  ["CRC16 XModem", "crc16_xmodem", "CRC16XModem"],
+  ["CRC16 ZModem", "crc16_zmodem", "CRC16ZModem"],
+  ["CRC32", "crc32", "CRC32"],
+  ["CRC32 BZip2", "crc32_bzip2", "CRC32BZip2"],
+  ["CRC32c", "crc32c", "CRC32c"],
+  ["CRC32 Jam", "crc32_jam", "CRC32Jam"],
+  ["CRC32 MPEG", "crc32_mpeg", "CRC32MPEG"],
+  ["CRC32 POSIX", "crc32_posix", "CRC32POSIX"],
+  ["CRC32 XFER", "crc32_xfer", "CRC32XFER"],
+  ["CRC64", "crc64", "CRC64"],
+  ["CRC64 Jones", "crc64_jones", "CRC64Jones"],
+  ["CRC64 NVMe", "crc64_nvme", "CRC64NVMe"],
+  ["CRC64 XZ", "crc64_xz", "CRC64XZ"]
+].map do |label, require_path, class_name|
+  require "digest/#{require_path}"
+
   {
-    label: "CRC32",
-    fastcrc_class: FastCRC::CRC32,
-    digest_crc_class: Digest::CRC32
-  },
-  {
-    label: "CRC64 NVMe",
-    fastcrc_class: FastCRC::CRC64NVME,
-    digest_crc_class: Digest::CRC64NVMe
+    label: label,
+    fastcrc_class: FastCRC.const_get(class_name),
+    digest_crc_class: Digest.const_get(class_name)
   }
-].freeze
+end.freeze
 
 def verify_matching_checksums!(fastcrc_class, digest_crc_class)
   SAMPLES.each do |sample|

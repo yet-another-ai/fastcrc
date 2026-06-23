@@ -6,6 +6,7 @@ require "async"
 
 class TestStreamingFastCRC < Minitest::Test
   CHUNK_SIZE = 4096
+  CRC_CLASSES = FastCRCTestData::FASTCRC_CLASS_NAMES.map { |class_name| FastCRC.const_get(class_name) }.freeze
 
   def test_crc32_incremental_matches_one_shot
     data = ("123456789" * 1000) + "\x00\xFF\x80".b
@@ -19,12 +20,24 @@ class TestStreamingFastCRC < Minitest::Test
 
   def test_crc64_nvme_incremental_matches_one_shot
     data = ("hello world!" * 500) + "\x00\xFF\x80".b
-    digest = FastCRC::CRC64NVME.new
+    digest = FastCRC::CRC64NVMe.new
 
     update_in_chunks(digest, data)
 
-    assert_equal FastCRC::CRC64NVME.checksum(data), digest.checksum
-    assert_equal FastCRC::CRC64NVME.hexdigest(data), digest.hexdigest
+    assert_equal FastCRC::CRC64NVMe.checksum(data), digest.checksum
+    assert_equal FastCRC::CRC64NVMe.hexdigest(data), digest.hexdigest
+  end
+
+  def test_incremental_matches_one_shot_for_supported_dialects
+    data = ("123456789" * 1000) + "\x00\xFF\x80".b
+
+    CRC_CLASSES.each do |crc_class|
+      digest = crc_class.new
+      update_in_chunks(digest, data)
+
+      assert_equal crc_class.checksum(data), digest.checksum, "#{crc_class}#checksum"
+      assert_equal crc_class.hexdigest(data), digest.hexdigest, "#{crc_class}#hexdigest"
+    end
   end
 
   def test_reset_clears_state
@@ -47,9 +60,9 @@ class TestStreamingFastCRC < Minitest::Test
 
   def test_crc64_nvme_file_streaming_with_fiber_scheduler
     data = ("hello world!" * 10_000) + "\x00\xFF\x80".b
-    expected = FastCRC::CRC64NVME.hexdigest(data)
+    expected = FastCRC::CRC64NVMe.hexdigest(data)
 
-    actual = digest_file_with_fiber_scheduler(FastCRC::CRC64NVME, data)
+    actual = digest_file_with_fiber_scheduler(FastCRC::CRC64NVMe, data)
 
     assert_equal expected, actual
   end
