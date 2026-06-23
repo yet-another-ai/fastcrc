@@ -13,3 +13,5 @@ gem "rake-compiler"
 gem "minitest", "~> 5.16"
 
 gem "rubocop", "~> 1.21"
+
+gem "async", "~> 2.39"

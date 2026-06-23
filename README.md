@@ -45,6 +45,48 @@ Both APIs accept binary strings:
 FastCRC::CRC32.hexdigest("\x00\xFF\x80".b)
 ```
 
+### Incremental updates
+
+For large files or streaming input, create an instance and call `#update` with each chunk:
+
+```ruby
+digest = FastCRC::CRC32.new
+
+File.open("large.bin", "rb") do |file|
+  while (chunk = file.read(8192))
+    digest.update(chunk)
+  end
+end
+
+digest.hexdigest
+```
+
+With a fiber scheduler (for example via the [`async`](https://rubygems.org/gems/async) gem), chunked reads can yield between I/O and computation:
+
+```ruby
+require "async"
+
+Async do |task|
+  digest = FastCRC::CRC32.new
+
+  File.open("large.bin", "rb") do |file|
+    while (chunk = file.read(8192))
+      digest.update(chunk)
+      task.yield
+    end
+  end
+
+  puts digest.hexdigest
+end
+```
+
+Instance methods mirror the class methods:
+
+- `#update(data)` — append data to the running checksum
+- `#checksum` — current checksum as an integer
+- `#hexdigest` — current checksum as a lowercase hex string
+- `#reset` — reset internal state
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt.

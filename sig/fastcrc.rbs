@@ -5,12 +5,22 @@ module FastCRC
   end
 
   class CRC32
+    def self.new: () -> CRC32
     def self.checksum: (String data) -> Integer
     def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
   end
 
   class CRC64NVME
+    def self.new: () -> CRC64NVME
     def self.checksum: (String data) -> Integer
     def self.hexdigest: (String data) -> String
+    def update: (String data) -> void
+    def checksum: () -> Integer
+    def hexdigest: () -> String
+    def reset: () -> void
   end
 end
